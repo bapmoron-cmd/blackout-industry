@@ -329,8 +329,9 @@ const GUIDE_PAGES=[
  {title:'4 · Termine ton dossier',message:'Après les sept missions, tu passeras BLACKOUT FINAL : cinq dossiers E1 à E5 en 75 minutes. Rédige tes justifications, exporte ton bilan PDF et remets-le au formateur. La boutique se débloque ensuite.'}
 ];
 let guidePage=0;
-let guideOpen=!teacherMode&&!state.guideV06Seen;
-function guideClose(){guideOpen=false;if(!teacherMode){state.guideV06Seen=true;save()}render()}
+let guideOpen=!teacherMode&&!teacherRequested;
+// Le tutoriel s'ouvre à chaque chargement du lien apprenti, indépendamment des sauvegardes.
+function guideClose(){guideOpen=false;render()}
 function guideOverlay(){if(!guideOpen||teacherMode)return '';let g=GUIDE_PAGES[guidePage];return '<div class="voltx-backdrop" id="voltx-backdrop"><section class="voltx-dialog" role="dialog" aria-modal="true" aria-labelledby="voltx-guide-title"><div class="voltx-dialog-heading"><span class="pill">GUIDE VOLT-X · '+(guidePage+1)+' / '+GUIDE_PAGES.length+'</span><button class="btn flat" type="button" data-guide-close aria-label="Fermer le tutoriel">✕</button></div>'+speaker('voltx',g.message)+'<h2 id="voltx-guide-title">'+esc(g.title)+'</h2><div class="voltx-dots">'+GUIDE_PAGES.map((_,i)=>'<span class="'+(i===guidePage?'on':'')+'"></span>').join('')+'</div><div class="actions"><button class="btn alt" data-guide-back '+(guidePage===0?'disabled':'')+'>← Précédent</button><button class="btn" data-guide-next>'+(guidePage===GUIDE_PAGES.length-1?'Commencer la mission →':'Suivant →')+'</button><button class="btn flat" data-guide-close>Passer le tutoriel</button></div></section></div>'}
 function guideContext(){
  let id=Number((state.screen.match(/^m([1-7])$/)||[])[1]);if(id){if(state.missionResults[id])return {step:'BILAN TERMINÉ',text:'Consulte ton résultat. Les questions bonus te permettent de gagner des jetons avant le dossier final.',action:'Questions bonus →',target:'r'+id};
