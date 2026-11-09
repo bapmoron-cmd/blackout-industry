@@ -134,6 +134,31 @@ function courseExpanded(id){
 // Dessins de schémas électriques à symboles de contact, avec raccordements explicites.
 function svgContact(x,y,type,label){let nf=type==='NC';return `<g stroke="#152b44" stroke-width="2.5" fill="none"><path d="M${x-27} ${y}H${x-12} M${x+12} ${y}H${x+27} M${x-12} ${y-12}V${y+12} M${x+12} ${y-12}V${y+12}"/>${nf?`<path d="M${x-16} ${y+15}L${x+16} ${y-15}"/>`:''}</g><text x="${x}" y="${y-21}" font-size="12" font-family="Arial" text-anchor="middle" fill="#152b44">${label}</text>`}
 function drawingCase(n){
+ if(n===1){return `<section class="case-doc"><div class="actions" style="justify-content:space-between"><h3>ANNEXE GRAPHIQUE · E1 · Alimentation et mesure 24 V DC</h3><button class="btn alt" type="button" data-case-zoom>⤢ Agrandir le schéma</button></div><svg class="real-schematic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 470" role="img" aria-label="Circuit électrique de 24 volts continu avec générateur, résistance R1 48 ohms et voltmètre monté en parallèle aux bornes de R1">
+<rect width="880" height="470" fill="#fff"/>
+<g font-family="Arial,sans-serif" fill="#18314f"><text x="25" y="42" font-size="24" font-weight="bold">E1 — CIRCUIT RÉSISTIF / 24 V DC</text><text x="60" y="160" font-size="17">+24 V DC</text><text x="67" y="370" font-size="17">0 V</text></g>
+<g fill="none" stroke="#18314f" stroke-width="3.6" stroke-linecap="square">
+<!-- source; long plate positive and short plate negative -->
+<path d="M135 160V203 M105 203H165 M118 218H152 M135 218V352"/>
+<!-- circuit from positive to load and back -->
+<path d="M135 160V111H355 M465 111H675V352H135"/>
+<!-- resistor only connected at endpoints -->
+<rect x="355" y="90" width="110" height="42" fill="#fff"/>
+<!-- separate voltmeter loop across resistor -->
+<path d="M340 111V205H375 M445 205H480V111" stroke="#2869cb"/>
+<circle cx="410" cy="205" r="35" stroke="#2869cb"/>
+<!-- nodes -->
+<circle cx="340" cy="111" r="4" fill="#18314f"/><circle cx="480" cy="111" r="4" fill="#18314f"/>
+</g>
+<g fill="#18314f" font-family="Arial,sans-serif">
+<text x="410" y="82" text-anchor="middle" font-size="19" font-weight="bold">R1 · 48 Ω</text>
+<text x="410" y="212" text-anchor="middle" font-size="25" fill="#2869cb">V</text>
+<text x="524" y="211" font-size="17">Voltmètre en parallèle sur R1</text>
+<text x="135" y="251" text-anchor="middle" font-size="17">G1</text>
+<text x="135" y="275" text-anchor="middle" font-size="15">24 V DC</text>
+<text x="440" y="392" font-size="17">Hypothèse : résistance idéale, générateur nominal 24 V</text>
+<text x="25" y="451" font-size="13" fill="#64748b">Annexe pédagogique de circuit continu — mesurer la tension entre deux bornes, pas en série avec le récepteur.</text>
+</g></svg><p class="doc-caption">Circuit DC : R1 = 48 Ω et voltmètre en parallèle. Le relevé de 12 V indiqué dans le dossier correspond à une situation de défaut distincte du schéma nominal.</p></section>`;}
  if(n===4||n===5){let title=n===4?'E4 · Départ moteur triphasé — puissance':'E5 · Marche / Arrêt — commande 24 V DC';return `<section class="case-doc"><div class="actions" style="justify-content:space-between"><h3>ANNEXE GRAPHIQUE · ${title}</h3><button class="btn alt" data-case-zoom type="button">⤢ Agrandir le schéma</button></div>${n===4?motorPowerSVG():motorControlSVG()}<p class="doc-caption">Schéma développé pédagogique, repérage IEC usuel. Documents de formation uniquement : ne pas utiliser tels quels pour réaliser une installation.</p></section>`;}
  let lines='',title='';
  if(n===1){title='E1 · Alimentation et charge résistive 24 V DC';lines=`<g stroke="#152b44" stroke-width="3" fill="none"><path d="M65 85H160 M212 85H305 V225 H65 V175 M65 125V85"/><circle cx="65" cy="150" r="25"/><path d="M50 149H80 M65 134V164"/><rect x="160" y="67" width="52" height="36"/></g><text x="67" y="193" fill="#152b44" font-size="13">+24 V</text><text x="184" y="59" fill="#152b44" font-size="13">R1 = 48 Ω</text><text x="280" y="245" fill="#152b44" font-size="13">0 V</text><g stroke="#2563eb" stroke-width="2.2" fill="none"><path d="M160 85V140H212V85"/><circle cx="186" cy="140" r="21"/></g><text x="186" y="146" fill="#2563eb" text-anchor="middle" font-size="14">V</text><text x="238" y="154" fill="#152b44" font-size="12">Mesure aux bornes R1</text>`}
