@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BLACKOUT ÉDUCATION — ED02 V3.1 — Test</title>
+<style>html,body{margin:0;min-height:100%;background:#081421;color:#e7f6ff;font:16px/1.65 system-ui,Arial,sans-serif}main{max-width:640px;margin:14vh auto;padding:30px;background:#14293a;border:1px solid #2a677c;border-radius:18px}h1{font-size:26px}strong{color:#8af5ef}.track{height:9px;background:#29495c;border-radius:99px;overflow:hidden}.fill{width:0;height:100%;background:#17c9e0;transition:width .2s}button{background:#15b8cc;color:#061421;border:0;border-radius:9px;padding:10px 18px;cursor:pointer}small{color:#a3c6d5}</style>
+</head>
+<body><main id="panel"><small>BLACKOUT ÉDUCATION · ZONE DE TEST INDÉPENDANTE</small><h1>ED02 — Architecture HTA / TGBT</h1><p id="status">Chargement des ressources pédagogiques…</p><div class="track"><div id="fill" class="fill"></div></div><p><small>V3.1 · 20 cours · tests uniquement · données locales dans ce navigateur</small></p></main>
+<script>
+(async function(){
+const status=document.getElementById('status'),fill=document.getElementById('fill');
+try{
+const total=12,segments=[];
+for(let i=0;i<total;i++){
+const file='p'+String(i).padStart(2,'0')+'.txt';
+const r=await fetch('./'+file,{cache:'no-store'});
+if(!r.ok)throw new Error(file+' : réponse HTTP '+r.status);
+segments.push(await r.text());
+status.textContent='Chargement du jeu : '+Math.round((i+1)*100/total)+' %';
+fill.style.width=((i+1)*100/total)+'%';
+}
+const html=segments.join('');
+if(html.length<6900000||!html.startsWith('<!DOCTYPE html>')||!html.includes('</html>'))throw new Error('Fichier incomplet ('+html.length+' caractères)');
+document.open();document.write(html);document.close();
+}catch(err){status.innerHTML='<strong>Chargement impossible : </strong>'+String(err.message||err);fill.style.background='#ef7878';document.getElementById('panel').insertAdjacentHTML('beforeend','<p>Vérifie ta connexion, puis <button onclick="location.reload()">Réessayer</button>.</p>');}
+})();
+</script>
+</body></html>
